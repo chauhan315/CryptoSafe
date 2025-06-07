@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.SetupPinController"
+      alignment="CENTER"
+      spacing="15"
+      padding="Insets(30)">
+
+    <Label text="Set a 4-digit PIN" styleClass="login-title"/>
+
+    <PasswordField fx:id="pinField"
+                   promptText="Enter PIN"
+                   maxWidth="150"
+                   onKeyTyped="#validatePinLength"/>
+
+    <PasswordField fx:id="confirmPinField"
+                   promptText="Confirm PIN"
+                   maxWidth="150"
+                   onKeyTyped="#validatePinLength"/>
+
+    <Button text="Submit" onAction="#handleSubmit" maxWidth="150"/>
+
+    <Label fx:id="errorLabel" styleClass="error-label" text="" />
+
+</VBox>
