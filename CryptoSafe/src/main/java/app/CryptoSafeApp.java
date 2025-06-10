@@ -13,12 +13,12 @@ public class CryptoSafeApp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		FXMLLoader loader;
-		
+
 		try {
 			if (AppConfig.isFirstLaunch()) {
-				loader = new FXMLLoader(AppConfig.class.getResource("/view/setup_pin.fxml")); // First-time PIN setup
+				loader = new FXMLLoader(AppConfig.class.getResource("/view/setup_pin.fxml"));
 			} else {
-				loader = new FXMLLoader(AppConfig.class.getResource("/view/login.fxml")); // Normal login
+				loader = new FXMLLoader(AppConfig.class.getResource("/view/entry_form.fxml"));
 			}
 			Scene scene = new Scene(loader.load());
 			scene.getStylesheets().add(AppConfig.class.getResource("/resources/styles.css").toExternalForm());
@@ -38,5 +38,6 @@ public class CryptoSafeApp extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
 
 }
