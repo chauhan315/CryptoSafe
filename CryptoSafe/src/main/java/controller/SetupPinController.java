@@ -1,13 +1,20 @@
 package controller;
 
-import domain.validation.PINFieldValidation;
-import util.EncryptionUtils;
-import persistence.PinRepository;
+import java.io.IOException;
 
+import config.AppConfig;
+import domain.validation.PINFieldValidation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.stage.Stage;
+import persistence.PinRepository;
+import util.EncryptionUtils;
 
 public class SetupPinController {
 
@@ -25,8 +32,9 @@ public class SetupPinController {
 		if (pinField.getText().equals(confirmPinField.getText())) {
 			String hashedCode = EncryptionUtils.createHashPin(pinField.getText());
 			PinRepository.insertPIN(hashedCode);
-			errorLabel.setText("Hashed value added in H2 db");
 			
+			setUpPinToEntryForm(event);
+
 		} else {
 			pinField.clear();
 			confirmPinField.clear();
@@ -34,10 +42,23 @@ public class SetupPinController {
 		}
 	}
 
-	
 	@FXML
 	private void initialize() {
 		PINFieldValidation.restrictToFourDigitPIN(pinField);
 		PINFieldValidation.restrictToFourDigitPIN(confirmPinField);
+	}
+	
+	private void setUpPinToEntryForm(ActionEvent event) {
+		try {
+            Parent entryFormRoot = FXMLLoader.load(AppConfig.class.getResource("/view/entry_form.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene entryForm = new Scene(entryFormRoot);
+            stage.setScene(entryForm);
+            stage.setResizable(false);
+            stage.getIcons().add(AppConfig.getAppIcon());
+            stage.show();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
 	}
 }
