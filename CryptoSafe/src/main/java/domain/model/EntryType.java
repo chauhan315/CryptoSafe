@@ -1,5 +1,9 @@
 package domain.model;
 
-public class EntryType {
-
+public enum EntryType {
+	DOCUMENT,
+	IMAGE,
+	VIDEO,
+	AUDIO,
+	MISCELLANEOUS
 }

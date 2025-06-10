@@ -38,11 +38,11 @@ public class EntryFormController {
 		String pin = pinField.getText();
 		String hashed = PinRepository.getHash();
 		
-		if(EncryptionUtils.checkHash(pin, hashed)) {
-			errorLabel.setText("true");
-		} else {
-			errorLabel.setText("false");
-		}
+		if(!EncryptionUtils.checkHash(pin, hashed)) {
+			errorLabel.setText("PIN is wrong!!");
+			pinField.clear();
+			return;
+		} 
 		
 		entryFormToMain(event);
 	}
