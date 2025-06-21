@@ -18,5 +18,6 @@ public class AppConfig {
 		Image icon = new Image(AppConfig.class.getResourceAsStream(APP_ICON_PATH));
 		return icon;
 	}
+	
 
 }

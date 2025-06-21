@@ -1,5 +1,5 @@
 package exception;
 
-public class VaultException {
+public class VaultException extends Exception{
 
 }

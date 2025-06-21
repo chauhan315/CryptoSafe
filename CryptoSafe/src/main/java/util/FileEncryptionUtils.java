@@ -22,9 +22,8 @@ public class FileEncryptionUtils {
 
 	private static final String KEY_FILE_PATH = "data/crypto.key";
 	private static SecretKey secretKey;
-	private static byte[] iv;
 
-	public static void initializeKeyAndIV() {
+	public static void initializeKey() {
 		File keyFile = new File(KEY_FILE_PATH);
 
 		if (keyFile.exists()) {
@@ -45,15 +44,16 @@ public class FileEncryptionUtils {
 				// Store the key
 				ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(keyFile));
 				oos.writeObject(secretKey.getEncoded());
+				oos.close();
 
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
+			} 
 		}
 	}
 
 	public static EncryptedData encrpyt(File inputFile) {
-		initializeKeyAndIV();
+		initializeKey();
 
 		try {
 			// Read all the file data in bytes

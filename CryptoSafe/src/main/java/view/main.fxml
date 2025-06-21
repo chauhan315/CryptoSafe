@@ -43,7 +43,6 @@
                 <columns>
                     <TableColumn fx:id="titleColumn" prefWidth="150" text="Title" />
                     <TableColumn fx:id="usernameColumn" prefWidth="150" text="Username" />
-                    <TableColumn fx:id="tagsColumn" prefWidth="120" text="Tags" />
                     <TableColumn fx:id="typeColumn" prefWidth="100" text="Type" />
                 </columns>
             </TableView>

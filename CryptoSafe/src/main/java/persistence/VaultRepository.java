@@ -3,8 +3,12 @@ package persistence;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import domain.model.EntryType;
 import domain.model.VaultEntry;
 
@@ -29,14 +33,15 @@ public class VaultRepository {
 				Statement stmnt = conn.createStatement()){
 			
 			String sql = "CREATE TABLE IF NOT EXISTS vault_entries (" +
-					"id INT PRIMARY KEY AUTO_INCREMENT, " +
-					"title VARCHAR(255) NOT NULL," +
-					"username VARCHAR(255) NOT NULL," +
-					"entry_type VARCHAR(255) NOT NULL," +
-					"encryted_file_path VARCHAR(255) NOT NULL," +
-					"created_at TIMESTAMP," +
-					"updated_at TIMESTAMP," +
-					"iv VARBINARY(16)";
+				    "id INT PRIMARY KEY AUTO_INCREMENT, " +
+				    "title VARCHAR(255) NOT NULL, " +
+				    "username VARCHAR(255) NOT NULL, " +
+				    "entry_type VARCHAR(255) NOT NULL, " +
+				    "encrypted_file_path VARCHAR(255) NOT NULL, " +
+				    "created_at TIMESTAMP, " +
+				    "updated_at TIMESTAMP, " +
+				    "iv VARBINARY(16)" +
+				    ")";
 			
 			stmnt.execute(sql);
 			
@@ -77,5 +82,31 @@ public class VaultRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public List<VaultEntry> getAllEntries() {
+		List<VaultEntry> entries = new ArrayList<>();
+		String sql = "SELECT * FROM vault_entries";
+		
+		try(Connection conn = DriverManager.getConnection(DB_URL);
+				PreparedStatement pstmnt = conn.prepareStatement(sql);
+				ResultSet rs = pstmnt.executeQuery()){
+			
+			while(rs.next()) {
+				VaultEntry entry = new VaultEntry();
+				entry.setTitle(rs.getString("title"));
+	            entry.setUsername(rs.getString("username"));
+	            entry.setType(EntryType.valueOf(rs.getString("entry_type")));
+	            entry.setEncryptedFilePath(rs.getString("encrypted_file_path"));
+	            entry.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+	            entry.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
+	            
+	            entries.add(entry);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return entries;
+		
 	}
 }

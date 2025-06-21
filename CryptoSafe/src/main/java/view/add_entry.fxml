@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/20.0.1"
+      fx:controller="controller.AddEntryController"
+      spacing="15"
+      alignment="CENTER">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Add Vault Entry" styleClass="form-title"/>
+
+    <TextField fx:id="titleField" promptText="Title" maxWidth="250"/>
+    <TextField fx:id="usernameField" promptText="Username (optional)" maxWidth="250"/>
+
+    <ComboBox fx:id="typeComboBox" promptText="Select Type" maxWidth="250"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Choose File" onAction="#handleChooseFile"/>
+        <Label fx:id="fileNameLabel" text="No file chosen" />
+    </HBox>
+
+    <Button text="Add Entry" onAction="#handleAddEntry" maxWidth="150"/>
+
+    <Label fx:id="errorLabel" styleClass="error-label" text="" wrapText="true" maxWidth="250"/>
+
+</VBox>

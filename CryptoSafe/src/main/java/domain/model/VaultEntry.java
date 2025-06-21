@@ -1,34 +1,23 @@
 package domain.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Arrays;
 
 public class VaultEntry {
 
 	private int id;
 	private String title;
 	private String username;
-	private List<Tag> tags;
 	private EntryType type;
 	private String encryptedFilePath;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+	private byte[] iv;
 
 	public VaultEntry() {
 		super();
 	}
 
-	public VaultEntry(String title, String username, List<Tag> tags, EntryType type, String encryptedFilePath,
-			LocalDateTime createdAt, LocalDateTime updatedAt) {
-		super();
-		this.title = title;
-		this.username = username;
-		this.tags = tags;
-		this.type = type;
-		this.encryptedFilePath = encryptedFilePath;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-	}
 
 	public int getId() {
 		return id;
@@ -52,14 +41,6 @@ public class VaultEntry {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public List<Tag> getTags() {
-		return tags;
-	}
-
-	public void setTags(List<Tag> tags) {
-		this.tags = tags;
 	}
 
 	public EntryType getType() {
@@ -94,11 +75,23 @@ public class VaultEntry {
 		this.updatedAt = updatedAt;
 	}
 
-	@Override
-	public String toString() {
-		return "VaultEntry [id=" + id + ", title=" + title + ", username=" + username + ", tags=" + tags + ", type="
-				+ type + ", encryptedFilePath=" + encryptedFilePath + ", createdAt=" + createdAt + ", updatedAt="
-				+ updatedAt + "]";
+
+	public byte[] getIv() {
+		return iv;
 	}
 
+
+	public void setIv(byte[] iv) {
+		this.iv = iv;
+	}
+
+
+	@Override
+	public String toString() {
+		return "VaultEntry [id=" + id + ", title=" + title + ", username=" + username + ", type=" + type
+				+ ", encryptedFilePath=" + encryptedFilePath + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ ", iv=" + Arrays.toString(iv) + "]";
+	}
+
+	
 }
