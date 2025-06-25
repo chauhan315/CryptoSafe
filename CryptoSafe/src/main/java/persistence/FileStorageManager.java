@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import exception.VaultException;
-
 public class FileStorageManager {
 
 	private static final String VAULT_DIR = "data/vault";

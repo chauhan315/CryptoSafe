@@ -4,20 +4,46 @@ import java.util.List;
 
 import config.AppConfig;
 import domain.model.VaultEntry;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import service.VaultService;
 import service.VaultServiceImpl;
 
 public class MainController {
 	
-	VaultService vaultService = new VaultServiceImpl();
-	List<VaultEntry> entries = vaultService.getAllEntrie();
+	VaultService vaultService;
+	
+	@FXML
+	private TableView<VaultEntry> vaultTable;
+	
+	@FXML
+	private TableColumn<VaultEntry, String> titleColumn;
+	
+	@FXML
+	private TableColumn<VaultEntry, String> usernameColumn;
+	
+	@FXML
+	private TableColumn<VaultEntry, String> typeColumn;
+	
+	@FXML
+	public void initialize() {
+		vaultService = new VaultServiceImpl();
+		List<VaultEntry> entries = vaultService.getAllEntrie();
+		
+		titleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
+		usernameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUsername()));
+		typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType().toString()));
+		
+		vaultTable.getItems().setAll(entries);
+	}
 
 	@FXML
 	private void handleSearch(ActionEvent event) {
