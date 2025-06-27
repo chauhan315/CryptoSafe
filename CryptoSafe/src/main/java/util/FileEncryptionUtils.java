@@ -13,9 +13,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
+import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
 import javax.crypto.KeyGenerator;
 
 public class FileEncryptionUtils {
@@ -81,4 +83,31 @@ public class FileEncryptionUtils {
 		return null;
 
 	}
+	
+	public static File decrypt(File encryptedFile, byte[] iv, File outputFile) {
+	    try {
+	        initializeKey(); 
+	        IvParameterSpec ivSpec = new IvParameterSpec(iv);
+
+	        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+	        cipher.init(Cipher.DECRYPT_MODE, secretKey, ivSpec);
+
+	        try (CipherInputStream cis = new CipherInputStream(new FileInputStream(encryptedFile), cipher);
+	             FileOutputStream fos = new FileOutputStream(outputFile)) {
+
+	            byte[] buffer = new byte[4096];
+	            int bytesRead;
+	            while ((bytesRead = cis.read(buffer)) != -1) {
+	                fos.write(buffer, 0, bytesRead);
+	            }
+
+	        }
+
+	        return outputFile;
+
+	    } catch (IOException | GeneralSecurityException e) {
+	        throw new RuntimeException("Decryption failed", e);
+	    }
+	}
+
 }

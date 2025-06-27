@@ -86,7 +86,7 @@ public class VaultRepository {
 
 	public List<VaultEntry> getAllEntries() {
 		List<VaultEntry> entries = new ArrayList<>();
-		String sql = "SELECT title, username, entry_type FROM vault_entries";
+		String sql = "SELECT * FROM vault_entries";
 		
 		try(Connection conn = DriverManager.getConnection(DB_URL);
 				PreparedStatement pstmnt = conn.prepareStatement(sql);
@@ -97,7 +97,11 @@ public class VaultRepository {
 				entry.setTitle(rs.getString("title"));
 	            entry.setUsername(rs.getString("username"));
 	            entry.setType(EntryType.valueOf(rs.getString("entry_type")));
-	            	            
+	            entry.setEncryptedFilePath(rs.getString("encrypted_file_path"));
+	            entry.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+	            entry.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
+	            entry.setIv(rs.getBytes("iv"));
+	            
 	            entries.add(entry);
 			}
 		} catch (SQLException e) {

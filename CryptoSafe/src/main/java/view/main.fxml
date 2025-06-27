@@ -53,6 +53,7 @@
                 <Button onAction="#handleEditEntry" text="Edit" />
                 <Button onAction="#handleDeleteEntry" text="Delete" />
                 <Button onAction="#handleBackup" text="Backup" />
+                <Button onAction="#handleExportEntry" text="Export" />
             </HBox>
         </VBox>
     </center>

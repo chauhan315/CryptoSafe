@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -86,5 +87,33 @@ public class MainController {
 	@FXML
 	private void logout(ActionEvent event) {
 		
+	}
+	
+	@FXML
+	private void handleExportEntry(ActionEvent event) {
+		VaultEntry selectedEntry = vaultTable.getSelectionModel().getSelectedItem();
+		
+		if(selectedEntry == null) {
+			showError("Please select a file first");
+			return;
+		}
+		
+		
+	}
+	
+	private void showError(String message) {
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("Error");
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();
+	}
+	
+	private void showInfo(String message) {
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Info");
+		alert.setContentText(message);
+		alert.setHeaderText(null);
+		alert.showAndWait();
 	}
 }
