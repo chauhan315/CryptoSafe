@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.util.List;
 
 import config.AppConfig;
@@ -17,8 +18,11 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import service.VaultService;
 import service.VaultServiceImpl;
+import util.FileEncryptionUtils;
 
 public class MainController {
+	
+	private static final String exportPath = "data/export";
 	
 	VaultService vaultService;
 	
@@ -96,6 +100,21 @@ public class MainController {
 		if(selectedEntry == null) {
 			showError("Please select a file first");
 			return;
+		}
+		
+		File encryptedFile = new File(selectedEntry.getEncryptedFilePath());
+		
+		File exportDir = new File(exportPath);
+		if(!exportDir.exists()) exportDir.mkdirs();
+		
+		String fileName = encryptedFile.getName();
+		File outputFile = new File(exportDir, fileName);
+		
+		try {
+			File decryptedFile = FileEncryptionUtils.decrypt(encryptedFile, selectedEntry.getIv(), outputFile);
+			showInfo("File Exported Succesfully to : " + decryptedFile.getAbsolutePath());
+		} catch (Exception e) {
+			showError("Export Failed: "+ e.getMessage());
 		}
 		
 		

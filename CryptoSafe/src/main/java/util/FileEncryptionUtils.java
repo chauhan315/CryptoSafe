@@ -64,7 +64,7 @@ public class FileEncryptionUtils {
 			// Generate IV per new file
 			byte[] fileIV = new byte[16];
 			SecureRandom random = new SecureRandom();
-			random.nextBytes(fileBytes);
+			random.nextBytes(fileIV);
 			IvParameterSpec ivSpec = new IvParameterSpec(fileIV);
 
 			// Setup AES Cipher
@@ -72,7 +72,7 @@ public class FileEncryptionUtils {
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivSpec);
 
 			// Encrypt data
-			byte[] encrptedBytes = cipher.doFinal(fileIV);
+			byte[] encrptedBytes = cipher.doFinal(fileBytes);
 
 			// Return encrypted data and iv
 			return new EncryptedData(encrptedBytes, fileIV);
